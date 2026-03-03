@@ -1,0 +1,23 @@
+[project]
+name = "customgas"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Dennis", email = "d.straub@mehrer.de" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "attrs>=25.4.0",
+    "coolprop>=7.2.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.10.7,<0.11.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "black>=26.1.0",
+    "isort>=8.0.1",
+]
