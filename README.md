@@ -1,6 +1,6 @@
 # CustomGas
 
-You'll find a *.tar.gz and a *.whl file in [CustomGas/dist](https://github.com/Dennis-89/CoolProp/blob/main/CustomGas/docs/dist). Download one of them and install the libary with `pip`
+You'll find a *.tar.gz and a *.whl file in [CustomGas/dist](https://github.com/Dennis-89/CoolProp/tree/main/CustomGas/dist). Download one of them and install the libary with `pip`
 .
 
 Then just [Download the docs](https://github.com/Dennis-89/CoolProp/blob/main/CustomGas/docs/build/html/index.html) or read below and have fun!
