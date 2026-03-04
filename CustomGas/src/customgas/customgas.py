@@ -2,8 +2,9 @@
 
 from enum import Enum
 from functools import cache
-from math import isclose
+from math import isclose, prod
 from timeit import timeit
+
 from CoolProp import CoolProp
 
 
@@ -15,7 +16,7 @@ def _custom_error(error, message):
 class InputPairs(Enum):
     PRESSURE_TEMPERATURE = CoolProp.PT_INPUTS
     TEMPERATURE_DENSITY = CoolProp.DmassT_INPUTS
-    ENTHALPY_PRESSURE = CoolProp.HmolarT_INPUTS
+
 
 class Percent(Enum):
     MASS = 0
@@ -41,18 +42,16 @@ class Gas(CoolProp.AbstractState):
             return cls(Gas.BACKEND, name)
         try:
             gas_mix = kwargs["gas_mix"]
-            percent = kwargs["percent"]
+            volume_percent = kwargs["percent"]
         except KeyError:
             error = f"Setup-Signature should be `Gas.setup(name='CO2')` or `Gas.setup(gas_mix={{'CO2: 50', 'H2': 50}}, percent=Percent.MASS)` and not <{kwargs!r}>"
             raise KeyError(error)
         if not isclose(sum(gas_mix.values()), 1.0, abs_tol=1e-5):
             raise ValueError(f"Sum of gas_mix is not 1")
-        gas = cls(Gas.BACKEND, "&".join(gas_mix.keys()))
-        # FIXME Volume composition has not been implemented
-        # gas.set_volu_fractions(list(gas_mix.values())) if percent else gas.set_mass_fractions(list(gas_mix.values()))
-        gas.set_mass_fractions(list(gas_mix.values()))
+        gas_names = set(gas_mix.keys())
+        gas = cls(Gas.BACKEND, "&".join(gas_names))
+        gas.set_mole_fractions(list(gas_mix.values())) if volume_percent else gas.set_mass_fractions(list(gas_mix.values()))
         return gas
-
 
     @property
     def input_pair(self):
@@ -106,6 +105,17 @@ class Gas(CoolProp.AbstractState):
     def pressure(self):
         return self.p()
 
+def _switch_percent(bases, percents):
+    """
+    Calculate mass-percent to volume-percent or mass-percent to volume-percent
+
+    :param list bases: gas-constants for calculate to volume-percent, mol-masses for calculate to mass-percent
+    :param list percents: Percent of each gas-component
+    :return list: Each calculated percent
+    """
+    total = sum(map(prod, zip(bases, percents)))
+    return [base * percent / total * 100 for base, percent in zip(bases, percents)]
+
 
 def main():
     norm_temp = 273.15  # °K
@@ -114,7 +124,7 @@ def main():
     gas = Gas.setup(gas_mix=gas_mix, percent=Percent.MASS)
     gas.update_state(norm_druck, norm_temp)
     gas.density()
-    gas.viscosity_()
+    gas.viscosity()
     gas.thermal_conductivity()
     gas.thermal_capacity()
     gas.molmass()
@@ -126,7 +136,7 @@ def main():
     gas.update_state(druck_test_1, temp_test_1)
 
     gas.density()
-    gas.viscosity_()
+    gas.viscosity()
     gas.thermal_conductivity()
     gas.thermal_capacity()
     gas.molmass()
@@ -139,16 +149,13 @@ def main():
     gas.update_state(druck_test_1, temp_test_1)
 
     gas.density()
-    gas.viscosity_()
+    gas.viscosity()
     gas.thermal_conductivity()
     gas.thermal_capacity()
     gas.molmass()
 
     gas.compressibility()
     gas.specific_gas_constant()
-
-
-
 
 
 if __name__ == "__main__":
