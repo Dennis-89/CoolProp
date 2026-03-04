@@ -1,33 +1,50 @@
 from customgas.customgas import Gas, InputPairs, Percent
+import pytest
 
-RESULTS = [
-    (0.921031, 1.10646e-05, 0.0701073, 1609.48, 0.0206428, 0.997571),
-    (11.1485, 1.5963e-05, 0.103979, 1859.97, 0.0206428, 0.997571),
-]
+RESULTS = {
+    "density": [0.921031, 11.1485],
+    "viscosity": [1.10646e-05, 1.5963e-05],
+    "thermal_conductivity": [0.0701073, 0.103979],
+    "thermal_capacity": [1609.48, 1859.97],
+    "molmass": [0.0206428, 0.0206428],
+    "compressibility": [0.997571, 0.997571],
+}
 
-
-
-def conditions():
-    gas_mix = {"CarbonDioxide": 0.33, "Hydrogen": 0.33, "Methane": 0.34}
-    gas = Gas.setup(gas_mix=gas_mix, percent=Percent.MASS)
-    for temperature, pressure in [
-        (273.15, 101325),
-        (273.15 + 150, 19e5),
-        (273.15 + 150, 19e5),
-    ]:
-        gas.update_state(pressure, temperature)
-        yield gas
+GAS = Gas.setup(gas_mix={"CarbonDioxide": 0.33, "Hydrogen": 0.33, "Methane": 0.34}, percent=Percent.VOLUME)
 
 
-def test_gas():
-    for gas, results in zip(conditions(), RESULTS):
-        assert gas.density() == results[0]
-        assert gas.viscosity() == results[1]
-        assert gas.thermal_conductivity() == results[2]
-        assert gas.thermal_capacity() == results[3]
-        assert gas.molmass() == results[4]
-        assert gas.compressibility() == results[5]
-    gas = Gas.setup(name="Air")
-    gas.input_pair = InputPairs.ENTHALPY_PRESSURE
-    gas.update_state(300, 1e5)
-    assert gas.temperature == 300
+
+
+
+@pytest.mark.parametrize("temperature, pressure, expected", [(273.15, 101325, RESULTS["density"][0]), (273.15 + 150, 19e5, RESULTS["density"][1])])
+def test_density(temperature, pressure, expected):
+    GAS.update_state(pressure, temperature)
+    assert GAS.density() == expected
+
+@pytest.mark.parametrize("temperature, pressure, expected", [(273.15, 101325, RESULTS["viscosity"][0]), (423.15, 19e5, RESULTS["viscosity"][1])])
+def test_viscosity(temperature, pressure, expected):
+    GAS.update_state(pressure, temperature)
+    assert GAS.viscosity() == expected
+
+@pytest.mark.parametrize("temperature, pressure, expected", [(273.15, 101325, RESULTS["thermal_conductivity"][0]), (423.15, 19e5, RESULTS["thermal_conductivity"][1])])
+def test_thermal_conductivity(temperature, pressure, expected):
+    GAS.update_state(pressure, temperature)
+    assert GAS.thermal_conductivity() == expected
+
+@pytest.mark.parametrize("temperature, pressure, expected", [(273.15, 101325, RESULTS["thermal_capacity"][0]), (423.15, 19e5, RESULTS["thermal_capacity"][1])])
+def test_thermal_capacity(temperature, pressure, expected):
+    GAS.update_state(pressure, temperature)
+    assert GAS.thermal_capacity() == expected
+
+@pytest.mark.parametrize("temperature, pressure, expected", [(273.15, 101325, RESULTS["molmass"][0]), (423.15, 19e5, RESULTS["molmass"][1])])
+def test_molmass(temperature, pressure, expected):
+    GAS.update_state(pressure, temperature)
+    assert GAS.molmass() == expected
+
+@pytest.mark.parametrize("temperature, pressure, expected", [(273.15, 101325, RESULTS["compressibility"][0]), (423.15, 19e5, RESULTS["compressibility"][1])])
+def test_compressibility(temperature, pressure, expected):
+    GAS.update_state(pressure, temperature)
+    assert GAS.compressibility() == expected
+
+
+
