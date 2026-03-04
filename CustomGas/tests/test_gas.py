@@ -10,7 +10,7 @@ RESULTS = {
     "compressibility": [0.997571, 0.997571],
 }
 
-GAS = Gas.setup(gas_mix={"CarbonDioxide": 0.33, "Hydrogen": 0.33, "Methane": 0.34}, percent=Percent.VOLUME)
+GAS = Gas.new(gas_mix={"CarbonDioxide": 0.33, "Hydrogen": 0.33, "Methane": 0.34}, percent=Percent.VOLUME)
 
 
 

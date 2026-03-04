@@ -172,7 +172,7 @@ def new():
     norm_temp = 273.15  # °K
     norm_druck = 1.01325e5  # bar abs
     gas_mix = {"CarbonDioxide": 0.33, "Hydrogen": 0.33, "Methane": 0.34}
-    gas = NewGas.setup(gas_mix=gas_mix, percent=Percent.MASS)
+    gas = NewGas.new(gas_mix=gas_mix, percent=Percent.MASS)
     gas.update_state(norm_druck, norm_temp)
     gas.density()
     gas.viscosity()

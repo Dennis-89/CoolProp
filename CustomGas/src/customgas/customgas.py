@@ -19,11 +19,12 @@ class Percent(Enum):
 
 
 class Gas(CoolProp.AbstractState):
+    """
+    Wrapper for the `CoolProp`-Lowlevel-API to get a more readable
+    and cleaner source code.
+    """
+
     BACKEND = "HEOS"
-    """
-    Wrapper for the `PropsSI`-API to get a more readable
-    and clear source code.
-    """
 
     def __init__(self, backend, name):
         CoolProp.AbstractState.__init__(self)
@@ -31,7 +32,7 @@ class Gas(CoolProp.AbstractState):
         self._input_pair = CoolProp.PT_INPUTS
 
     @classmethod
-    def setup(cls, **kwargs):
+    def new(cls, **kwargs):
         name = kwargs.get("name", None)
         if name is not None:
             return cls(Gas.BACKEND, name)
@@ -109,7 +110,7 @@ def main():
     norm_temp = 273.15  # °K
     norm_druck = 1.01325e5  # bar abs
     gas_mix = {"CarbonDioxide": 0.33, "Hydrogen": 0.33, "Methane": 0.34}
-    gas = Gas.setup(gas_mix=gas_mix, percent=Percent.MASS)
+    gas = Gas.new(gas_mix=gas_mix, percent=Percent.MASS)
     gas.update_state(norm_druck, norm_temp)
     gas.density()
     gas.viscosity()
