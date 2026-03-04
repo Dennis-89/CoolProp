@@ -3,6 +3,7 @@ from math import prod
 
 from attrs import define, field
 from CoolProp.CoolProp import PropsSI
+from customgas.customgas import Gas as NewGas, InputPairs, Percent
 from timeit import timeit
 
 # FIXME Temperature could be the return value and the given values could be
@@ -127,7 +128,7 @@ def switch_percent(bases, percents):
     return [base * percent / total * 100 for base, percent in zip(bases, percents)]
 
 
-def main():
+def old():
     norm_temp = 273.15
     norm_druck = 1.01325e5
     gas_mix = {Gas("CarbonDioxide"): 33, Gas("Hydrogen"): 33, Gas("Methane"): 34}
@@ -167,11 +168,54 @@ def main():
     GasMixture(gas_mix).compressibility(temp_test_1, druck_test_1)
     GasMixture(gas_mix).specific_gas_constant(temp_test_1, druck_test_1)
 
+def new():
+    norm_temp = 273.15  # °K
+    norm_druck = 1.01325e5  # bar abs
+    gas_mix = {"CarbonDioxide": 0.33, "Hydrogen": 0.33, "Methane": 0.34}
+    gas = NewGas.setup(gas_mix=gas_mix, percent=Percent.MASS)
+    gas.update_state(norm_druck, norm_temp)
+    gas.density()
+    gas.viscosity()
+    gas.thermal_conductivity()
+    gas.thermal_capacity()
+    gas.molmass()
+    gas.compressibility()
+    gas.specific_gas_constant()
+
+    temp_test_1 = 273.15 + 150
+    druck_test_1 = 19e5
+    gas.update_state(druck_test_1, temp_test_1)
+
+    gas.density()
+    gas.viscosity()
+    gas.thermal_conductivity()
+    gas.thermal_capacity()
+    gas.molmass()
+    gas.compressibility()
+    gas.specific_gas_constant()
+
+    temp_test_1 = 273.15 + 150
+    druck_test_1 = 19e5
+
+    gas.update_state(druck_test_1, temp_test_1)
+
+    gas.density()
+    gas.viscosity()
+    gas.thermal_conductivity()
+    gas.thermal_capacity()
+    gas.molmass()
+
+    gas.compressibility()
+    gas.specific_gas_constant()
+
 
 
 if __name__ == "__main__":
-    result = timeit(main, number=100)
-    print(result)
+    old = timeit(old, number=100)
+    print(f"Durchlauf der alten API: {old:.3f} Sekunden")
+    new = timeit(new, number=100)
+    print(f"Durchlauf der neuen API: {new:.3f} Sekunden")
+    print(f"Die neue API ist {(old / new):.3f} mal schneller")
 
 
 
