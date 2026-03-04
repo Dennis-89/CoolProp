@@ -1,5 +1,5 @@
 # CustomGas
-Just [Download the docs]([https://github.com/Dennis-89/CoolProp/blob/main/docs/build/html](https://github.com/Dennis-89/CoolProp/blob/main/CustomGas/docs/build/html/index.html)) or read below and have fun!
+Just [Download the docs](https://github.com/Dennis-89/CoolProp/blob/main/docs/build/html](https://github.com/Dennis-89/CoolProp/blob/main/CustomGas/docs/build/html/index.html) or read below and have fun!
 
 <h1>CustomGas documentation</h1>
 <p>A thinny wrapper for the <cite>CoolProp</cite> low-level interface.</p>
