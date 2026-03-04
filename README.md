@@ -5,6 +5,28 @@ You'll find a *.tar.gz and a *.whl file in [CustomGas/dist](https://github.com/D
 
 Then just [Download the docs](https://github.com/Dennis-89/CoolProp/blob/main/CustomGas/docs/build/html/index.html) or read below and have fun!
 
+Example Usage
+-------------
+See also what is happening when know gas state is set.
+
+```python
+[dennis@dennis CP]$ python -m venv .venv
+[dennis@dennis CP]$ . .venv/bin/activate
+(.venv) [dennis@dennis CP]$ pip install customgas-0.1.0-py3-none-any.whl  
+(.venv) [dennis@dennis CP]$ python
+Python 3.13.11 (main, Dec  5 2025, 00:00:00) [GCC 15.2.1 20251111 (Red Hat 15.2.1-4)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from customgas import Gas, Percent
+>>> gas_mix = {"CarbonDioxide": 0.33, "Hydrogen": 0.33, "Methane": 0.34}
+>>> gas = Gas.new(gas_mix=gas_mix, percent=Percent.MASS)
+>>> gas.density()
+-inf
+>>> gas.update_state(101325, 273.15)
+>>> gas.density()
+0.9351349203421592
+>>>
+```
+
 <h1>CustomGas documentation</h1>
 <p>A thinny wrapper for the <cite>CoolProp</cite> low-level interface.</p>
 <dl class="py class">
