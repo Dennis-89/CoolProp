@@ -3,7 +3,6 @@
 from enum import Enum
 from functools import cache
 from math import isclose
-from timeit import timeit
 
 from CoolProp import CoolProp
 
@@ -22,6 +21,7 @@ class Gas(CoolProp.AbstractState):
     """
     Wrapper for the `CoolProp`-Lowlevel-API to get a more readable
     and cleaner source code.
+    Use `new()` function to create a `Gas` instance.
     """
 
     BACKEND = "HEOS"
@@ -33,6 +33,14 @@ class Gas(CoolProp.AbstractState):
 
     @classmethod
     def new(cls, **kwargs):
+        """
+        Function to create a new `Gas` instance. The `name` argument specifies the gas name. To create a gas mixture,
+        use the `gas_mix` and `percent` keyword arguments. Example: `percent` is a constant of the `Percent`-object
+        and indicates whether it is a mass percent or a volume percent value.
+        :param kwargs: name: str | gas_mix: dict  percent: int
+        :return: `Gas` instance
+        """
+
         name = kwargs.get("name", None)
         if name is not None:
             return cls(Gas.BACKEND, name)
@@ -55,13 +63,27 @@ class Gas(CoolProp.AbstractState):
 
     @property
     def input_pair(self):
+        """
+        Get or set the input-pair. You have to use one of the InputPairs-constant
+        or import something like that from the `CoolProp`.
+        """
         return self._input_pair
 
     @input_pair.setter
     def input_pair(self, value):
+        """
+        Get or set the input-pair. You have to use one of the InputPairs-constant
+        or import something like that from the `CoolProp`.
+        """
         self._input_pair = value.value
 
     def update_state(self, *args):
+        """
+        Set a new gas-state in order to the `input_pair`. Be carful to
+        use the values in the right order. See
+        CoolProp-Documentation(https://coolprop.org/_static/doxygen/html/namespace_cool_prop.html#a58e7d98861406dedb48e07f551a61efb)
+        :param args: list [int | float]
+        """
         if len(args) != 2:
             raise ValueError(
                 "You have to provide two inputs for the given `InputPairs`!"
@@ -129,24 +151,10 @@ def main():
     gas.thermal_conductivity()
     gas.thermal_capacity()
     gas.molmass()
-    gas.compressibility()
-    gas.specific_gas_constant()
-
-    temp_test_1 = 273.15 + 150
-    druck_test_1 = 19e5
-
-    gas.update_state(druck_test_1, temp_test_1)
-
-    gas.density()
-    gas.viscosity()
-    gas.thermal_conductivity()
-    gas.thermal_capacity()
-    gas.molmass()
 
     gas.compressibility()
     gas.specific_gas_constant()
 
 
 if __name__ == "__main__":
-    result = timeit(main, number=100)
-    print(result)
+    main()
