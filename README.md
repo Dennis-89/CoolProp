@@ -1,5 +1,9 @@
 # CustomGas
-Just [Download the docs](https://github.com/Dennis-89/CoolProp/blob/main/CustomGas/docs/build/html/index.html) or read below and have fun!
+
+You'll find a *.tar.gz and a *.whl file in [CustomGas/dist](https://github.com/Dennis-89/CoolProp/blob/main/CustomGas/docs/dist). Download one of them and install the libary with `pip`
+.
+
+Then just [Download the docs](https://github.com/Dennis-89/CoolProp/blob/main/CustomGas/docs/build/html/index.html) or read below and have fun!
 
 <h1>CustomGas documentation</h1>
 <p>A thinny wrapper for the <cite>CoolProp</cite> low-level interface.</p>
