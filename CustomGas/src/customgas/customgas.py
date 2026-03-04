@@ -50,7 +50,11 @@ class Gas(CoolProp.AbstractState):
             raise ValueError(f"Sum of gas_mix is not 1")
         gas_names = set(gas_mix.keys())
         gas = cls(Gas.BACKEND, "&".join(gas_names))
-        gas.set_mole_fractions(list(gas_mix.values())) if volume_percent else gas.set_mass_fractions(list(gas_mix.values()))
+        (
+            gas.set_mole_fractions(list(gas_mix.values()))
+            if volume_percent
+            else gas.set_mass_fractions(list(gas_mix.values()))
+        )
         return gas
 
     @property
@@ -104,6 +108,7 @@ class Gas(CoolProp.AbstractState):
 
     def pressure(self):
         return self.p()
+
 
 def _switch_percent(bases, percents):
     """
