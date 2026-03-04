@@ -2,15 +2,10 @@
 
 from enum import Enum
 from functools import cache
-from math import isclose, prod
+from math import isclose
 from timeit import timeit
 
 from CoolProp import CoolProp
-
-
-def _custom_error(error, message):
-    error.args = (message,)
-    return error
 
 
 class InputPairs(Enum):
@@ -108,18 +103,6 @@ class Gas(CoolProp.AbstractState):
 
     def pressure(self):
         return self.p()
-
-
-def _switch_percent(bases, percents):
-    """
-    Calculate mass-percent to volume-percent or mass-percent to volume-percent
-
-    :param list bases: gas-constants for calculate to volume-percent, mol-masses for calculate to mass-percent
-    :param list percents: Percent of each gas-component
-    :return list: Each calculated percent
-    """
-    total = sum(map(prod, zip(bases, percents)))
-    return [base * percent / total * 100 for base, percent in zip(bases, percents)]
 
 
 def main():
