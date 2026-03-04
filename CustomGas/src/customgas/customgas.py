@@ -8,25 +8,36 @@ from CoolProp import CoolProp
 
 
 class InputPairs(Enum):
+    """
+    An Enum-class to use one of the input-pairs.
+
+    Pressure and Temperature or Temperature and density
+    """
     PRESSURE_TEMPERATURE = CoolProp.PT_INPUTS
     TEMPERATURE_DENSITY = CoolProp.DmassT_INPUTS
 
 
 class Percent(Enum):
+    """
+    An Enum class to use the percent in mass- or volumepercent.
+    """
     MASS = 0
     VOLUME = 1
 
 
 class Gas(CoolProp.AbstractState):
     """
-    Wrapper for the `CoolProp`-Lowlevel-API to get a more readable
-    and cleaner source code.
+    Wrapper for the `CoolProp <https://coolprop.org/>`_-Lowlevel-API to get a more readable
+    and cleaner source code. The free backend 'HEOS' is used.
     Use `new()` function to create a `Gas` instance.
     """
 
     BACKEND = "HEOS"
 
     def __init__(self, backend, name):
+        """
+        See :func:`Gas.new` for creating a `Gas` instance.
+        """
         CoolProp.AbstractState.__init__(self)
         self.specify_phase(CoolProp.iphase_gas)
         self._input_pair = CoolProp.PT_INPUTS
@@ -36,7 +47,8 @@ class Gas(CoolProp.AbstractState):
         """
         Function to create a new `Gas` instance. The `name` argument specifies the gas name. To create a gas mixture,
         use the `gas_mix` and `percent` keyword arguments. Example: `percent` is a constant of the `Percent`-object
-        and indicates whether it is a mass percent or a volume percent value.
+        and indicates whether it is a mass percent or a volume percent value. See :func:`Percent`.
+
         :param kwargs: name: str | gas_mix: dict  percent: int
         :return: `Gas` instance
         """
@@ -47,11 +59,11 @@ class Gas(CoolProp.AbstractState):
         try:
             gas_mix = kwargs["gas_mix"]
             volume_percent = kwargs["percent"]
-        except KeyError:
+        except KeyError as e:
             error = f"Setup-Signature should be `Gas.setup(name='CO2')` or `Gas.setup(gas_mix={{'CO2: 50', 'H2': 50}}, percent=Percent.MASS)` and not <{kwargs!r}>"
-            raise KeyError(error)
+            raise KeyError(error) from e
         if not isclose(sum(gas_mix.values()), 1.0, abs_tol=1e-5):
-            raise ValueError(f"Sum of gas_mix is not 1")
+            raise ValueError("Sum of gas_mix is not 1")
         gas_names = set(gas_mix.keys())
         gas = cls(Gas.BACKEND, "&".join(gas_names))
         (
@@ -66,22 +78,22 @@ class Gas(CoolProp.AbstractState):
         """
         Get or set the input-pair. You have to use one of the InputPairs-constant
         or import something like that from the `CoolProp`.
+
+        :param value: InputPairs-like object. See :func:`InputPairs`
         """
         return self._input_pair
 
     @input_pair.setter
     def input_pair(self, value):
-        """
-        Get or set the input-pair. You have to use one of the InputPairs-constant
-        or import something like that from the `CoolProp`.
-        """
+
         self._input_pair = value.value
 
     def update_state(self, *args):
         """
         Set a new gas-state in order to the `input_pair`. Be carful to
         use the values in the right order. See
-        CoolProp-Documentation(https://coolprop.org/_static/doxygen/html/namespace_cool_prop.html#a58e7d98861406dedb48e07f551a61efb)
+        `CoolProp-Documentation <https://coolprop.org/_static/doxygen/html/namespace_cool_prop.html#a58e7d98861406dedb48e07f551a61efb>`_
+
         :param args: list [int | float]
         """
         if len(args) != 2:
