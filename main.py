@@ -1,5 +1,5 @@
 from timeit import timeit
-from src.customgas import Wrapper
+from tests import speed_test
 
 
 def main():

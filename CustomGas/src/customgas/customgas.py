@@ -72,9 +72,6 @@ class Gas(CoolProp.AbstractState):
     def density(self):
         return self.rhomass()
 
-    def viscosity_(self):
-        return self.viscosity()
-
     def thermal_conductivity(self):
         return self.conductivity()
 
