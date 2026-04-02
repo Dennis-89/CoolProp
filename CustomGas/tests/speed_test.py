@@ -61,8 +61,7 @@ class Gas(AbstractGas):
         #
         gas_name = (
             "Nitrogen"
-            if self.name == "CarbonMonoxide"
-               and (property_type == "V" or property_type == "L")
+            if self.name == "CarbonMonoxide" and property_type in ["V", "L"]
             else self.name
         )
         try:

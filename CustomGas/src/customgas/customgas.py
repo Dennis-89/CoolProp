@@ -50,7 +50,7 @@ class Gas(CoolProp.AbstractState):
         and indicates whether it is a mass percent or a volume percent value. See :func:`Percent`.
 
         :param kwargs: name: str | gas_mix: dict  percent: int
-        :return: `Gas` instance
+        :return: :class:`Gas()`
         """
 
         name = kwargs.get("name", None)

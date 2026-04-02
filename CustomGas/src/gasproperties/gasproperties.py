@@ -104,6 +104,7 @@ class Gas(AbstractGas):
 
     density = gas.density(300, 10e5)
     """
+
     name = field(factory=str)
 
     def _property_si(self, temperature, pressure, property_type):
@@ -112,8 +113,7 @@ class Gas(AbstractGas):
         #
         gas_name = (
             "Nitrogen"
-            if self.name == "CarbonMonoxide"
-            and (property_type == "V" or property_type == "L")
+            if self.name == "CarbonMonoxide" and property_type in ["V", "L"]
             else self.name
         )
         try:
@@ -146,25 +146,25 @@ class GasMixture(AbstractGas):
     """
 
     component_to_percent = field(factory=dict, validator=_is_valid)
+    _start_components = field(factory=dict, init=False)
+
+    def __attrs_post_init__(self):
+        self._start_components = self.component_to_percent
 
     def _property_si(self, temperature, pressure, property_type):
         #
         # thermal_capacity need to request with mass-percent
         #
         if property_type == "CP0MASS":
-            component_to_percent = dict(
-                zip(
-                    self.component_to_percent.keys(),
-                    _switch_percent(
-                        *zip(
-                            *[
-                                (component._property_si(300, 1e5, "molemass"), percent)
-                                for component, percent in self.component_to_percent.items()
-                            ]
-                        )
-                    ),
-                )
+            components = self.component_to_percent.keys()
+            mass_percents = _switch_percent(
+                [
+                    component._property_si(300, 1e5, "molemass")
+                    for component in components
+                ],
+                self.component_to_percent.values(),
             )
+            component_to_percent = dict(zip(components, mass_percents))
         else:
             component_to_percent = self.component_to_percent
         if property_type == "T":
@@ -178,34 +178,31 @@ class GasMixture(AbstractGas):
             for component, percent in component_to_percent.items()
         )
 
-    @staticmethod
-    def get_mix_with_water(component_to_percent, humidity, temperature, pressure):
+    def add_water_to_gas_mix(self, humidity, temperature, pressure):
         """
         Recalculation of the gas mix to account for the water content in the gas.
         This is an approximation, as the absorption of water in dry air serves as the basis for the calculation.
 
-        :param dict component_to_percent: :class:`Gas` as component and percent in fraction. E.g.: `{Gas("CO2"): 1}`
         :param int | float humidity: In fraction
         :param int | float temperature: The gas temperature in Kelvin
         :param int | float pressure: The gas pressure in Pascal
-        :return GasMixture: A new :class:`GasMixture` object
+        :return None:
         """
         water_mass = get_water_content(
             humidity, pressure, _get_vapour_pressure(temperature)
         )
+        components_to_percent = self._start_components.items()
         gas_mass = sum(
             percent * gas.density(temperature, pressure)
-            for gas, percent in component_to_percent.items()
+            for gas, percent in components_to_percent
         )
         water_percent = 1 / (water_mass + gas_mass) * water_mass
         gas_percent = 1 - water_percent
-        return GasMixture(
-            {
+        self.component_to_percent = {
                 name: gas_percent * percent
-                for name, percent in component_to_percent.items()
-            }
-            | {Gas("H2O"): water_percent}
-        )
+                for name, percent in components_to_percent
+            } | {Gas("H2O"): water_percent}
+
 
 
 def _switch_percent(bases, percents):
@@ -257,10 +254,11 @@ def main():
         Gas("Methane"): 0.34,
     }
     gas_mix = GasMixture(gas_to_percent)
+    print(gas_mix.thermal_capacity(300, 1e5))
     print(f"Start ohne Wasser:\n{gas_mix}")
     for humidity in range(0, 110, 10):
-        gas_mix = gas_mix.get_mix_with_water(
-            gas_to_percent, humidity * 1e-2, gas_temperature, gas_pressure
+        gas_mix.add_water_to_gas_mix(
+            humidity * 1e-2, gas_temperature, gas_pressure
         )
         print(f"Gasmix bie einer Feuchte von {humidity}%:\n{gas_mix}")
 

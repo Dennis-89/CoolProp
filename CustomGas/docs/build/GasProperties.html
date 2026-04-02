@@ -1,0 +1,267 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GasProperties documentation &mdash; Gases-Doc 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=2709fde1"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CustomGas documentation" href="CostumGas.html" />
+    <link rel="prev" title="Gas-Tools" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Gases-Doc
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GasProperties documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#gasproperties.Gas"><code class="docutils literal notranslate"><span class="pre">Gas</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gasproperties.GasMixture"><code class="docutils literal notranslate"><span class="pre">GasMixture</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gasproperties.GasMixture.add_water_to_gas_mix"><code class="docutils literal notranslate"><span class="pre">GasMixture.add_water_to_gas_mix()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#gasproperties.get_water_content"><code class="docutils literal notranslate"><span class="pre">get_water_content()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CostumGas.html">CustomGas documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Gases-Doc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">GasProperties documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/GasProperties.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gasproperties-documentation">
+<h1>GasProperties documentation<a class="headerlink" href="#gasproperties-documentation" title="Link to this heading"></a></h1>
+<p>A thinny wrapper for the <cite>CoolProp</cite> Highlevel interface.</p>
+<p>Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="n">gas_temperature</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">gas_pressure</span> <span class="o">=</span> <span class="mf">10e5</span>
+<span class="n">gas_to_percent</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">Gas</span><span class="p">(</span><span class="s2">&quot;CarbonDioxide&quot;</span><span class="p">):</span> <span class="mf">0.33</span><span class="p">,</span>
+    <span class="n">Gas</span><span class="p">(</span><span class="s2">&quot;Hydrogen&quot;</span><span class="p">):</span> <span class="mf">0.33</span><span class="p">,</span>
+    <span class="n">Gas</span><span class="p">(</span><span class="s2">&quot;Methane&quot;</span><span class="p">):</span> <span class="mf">0.34</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">gas_mix</span> <span class="o">=</span> <span class="n">GasMixture</span><span class="p">(</span><span class="n">gas_to_percent</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start ohne Wasser:</span><span class="se">\n</span><span class="si">{</span><span class="n">gas_mix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">humidity</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">gas_mix</span><span class="o">.</span><span class="n">add_water_to_gas_mix</span><span class="p">(</span>
+        <span class="n">humidity</span> <span class="o">*</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="n">gas_temperature</span><span class="p">,</span> <span class="n">gas_pressure</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gasmix bie einer Feuchte von </span><span class="si">{</span><span class="n">humidity</span><span class="si">}</span><span class="s2">%:</span><span class="se">\n</span><span class="si">{</span><span class="n">gas_mix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="gasproperties.Gas">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">gasproperties.</span></span><span class="sig-name descname"><span class="pre">Gas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">NOTHING</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gasproperties.Gas" title="Link to this definition"></a></dt>
+<dd><p>Create a <a class="reference internal" href="#gasproperties.Gas" title="gasproperties.Gas"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gas</span></code></a>-object to get properties depending on given parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The gas-name like <cite>Gas(“CO2”)</cite>. For detail information about gases go
+through the <a class="reference external" href="https://coolprop.org/general_information.html">CoolProp-Documentation</a>.</p>
+</dd>
+</dl>
+<p>Possible properties are:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>density in kg/m³</dt><dd><p>Call with gas-temperature (Kelvin) and gas-pressure (Pascal)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>viscosity in Pa s</dt><dd><p>Call with gas-temperature (Kelvin) and gas-pressure (Pascal)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>thermal_conductivity in W/m/K</dt><dd><p>Call with gas-temperature (Kelvin) and gas-pressure (Pascal)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>thermal_capacity in J/kg/K</dt><dd><p>Call with gas-temperature (Kelvin) and gas-pressure (Pascal)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>molmass in kg/mol</dt><dd><p>Call with gas-temperature (Kelvin) and gas-pressure (Pascal)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>mass_enthalpy in J/kg</dt><dd><p>Call with gas-temperature (Kelvin) and gas-pressure (Pascal)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>molar_enthalpy in J/mol</dt><dd><p>Call with gas-temperature (Kelvin) and gas-pressure (Pascal)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>compressibility as a factor between 0 and 1</dt><dd><p>Call with gas-temperature (Kelvin) and gas-pressure (Pascal)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>isentropic_coefficient as a factor</dt><dd><p>Call with gas-temperature (Kelvin) and gas-pressure (Pascal)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>temperature_from_enthalpy in Kelvin</dt><dd><p>Call with gas-enthalpy (J/mol) and gas-pressure (Pascal)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>pressure_from_density in Pascal</dt><dd><p>Call with gas-temperature (Kelvin) and gas-density (kg/m³)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>specific_gas_constant in J/(kg * K)</dt><dd><p>Call with gas-temperature (Kelvin) and gas-pressure (Pascal)</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Example:</p>
+<p>gas = Gas(“CO2”)</p>
+<p>density = gas.density(300, 10e5)</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gasproperties.GasMixture">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">gasproperties.</span></span><span class="sig-name descname"><span class="pre">GasMixture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component_to_percent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">NOTHING</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gasproperties.GasMixture" title="Link to this definition"></a></dt>
+<dd><p>Create a Gas-Mixture out of <a class="reference internal" href="#gasproperties.Gas" title="gasproperties.Gas"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gas()</span></code></a> or even out of <a class="reference internal" href="#gasproperties.GasMixture" title="gasproperties.GasMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">GasMixture()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>component_to_percent</strong> (<em>dict</em>) – Is a dictionary like <cite>{Gas(“CO2”): 1}</cite>. Note the total percent have to be 1.</p>
+</dd>
+</dl>
+<p>For list of allowed properties and usage, see <a class="reference internal" href="#gasproperties.Gas" title="gasproperties.Gas"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gas()</span></code></a> documentation.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="gasproperties.GasMixture.add_water_to_gas_mix">
+<span class="sig-name descname"><span class="pre">add_water_to_gas_mix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">humidity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gasproperties.GasMixture.add_water_to_gas_mix" title="Link to this definition"></a></dt>
+<dd><p>Recalculation of the gas mix to account for the water content in the gas.
+This is an approximation, as the absorption of water in dry air serves as the basis for the calculation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>humidity</strong> (<em>int</em><em> | </em><em>float</em>) – In fraction</p></li>
+<li><p><strong>temperature</strong> (<em>int</em><em> | </em><em>float</em>) – The gas temperature in Kelvin</p></li>
+<li><p><strong>pressure</strong> (<em>int</em><em> | </em><em>float</em>) – The gas pressure in Pascal</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return None<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gasproperties.get_water_content">
+<span class="sig-prename descclassname"><span class="pre">gasproperties.</span></span><span class="sig-name descname"><span class="pre">get_water_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gas_pressure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vapour_pressure</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gasproperties.get_water_content" title="Link to this definition"></a></dt>
+<dd><p>Get the water content in air depends on the given humidity, pressure, and temperature.</p>
+<p><cite>AIR_CONSTANT</cite> and <cite>WATER_CONSTANT</cite> in J/(kg*K)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>humidity</strong> (<em>int</em><em> | </em><em>float</em>) – In fraction number (0…1)</p></li>
+<li><p><strong>gas_pressure</strong> (<em>int</em><em> | </em><em>float</em>) – In Pascal</p></li>
+<li><p><strong>vapour_pressure</strong> (<em>int</em><em> | </em><em>float</em>) – In Pascal</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return float<span class="colon">:</span></dt>
+<dd class="field-even"><p>In kg/kg</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Gas-Tools" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="CostumGas.html" class="btn btn-neutral float-right" title="CustomGas documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Straub, Ruff.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
