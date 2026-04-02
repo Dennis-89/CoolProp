@@ -1,17 +1,10 @@
-CustomGas documentation
-========================
+Gas-Tools
+=========
 
-A thinny wrapper for the `CoolProp` low-level interface.
+2 methods to request gas properties:
 
+.. toctree::
+    :maxdepth: 2
 
-
-.. autoclass:: customgas::Gas
-    :members:
-
-    .. automethod:: __init__
-
-.. autoclass:: customgas::Percent
-    :members:
-
-.. autoclass:: customgas::InputPairs
-    :members:
+    GasProperties
+    CostumGas

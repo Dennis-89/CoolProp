@@ -55,10 +55,10 @@ class AbstractGas:
 @define(hash=True)
 class Gas(AbstractGas):
     """
-    Create a :class: `Gas`-object to get properties depending on given parameters.
+    Create a :class:`Gas`-object to get properties depending on given parameters.
 
     :param str name: The gas-name like `Gas("CO2")`. For detail information about gases go
-    through the `CoolProp-Documentation <https://coolprop.org/general_information.html>`_.
+        through the `CoolProp-Documentation <https://coolprop.org/general_information.html>`_.
 
     Possible properties are:
 
@@ -138,11 +138,11 @@ def _is_full(component_to_percent):
 @define
 class GasMixture(AbstractGas):
     """
-    Create a Gas-Mixture out of :class: `Gas()` or even out of :class: `GasMixture()`.
+    Create a Gas-Mixture out of :class:`Gas()` or even out of :class:`GasMixture()`.
 
     :param dict component_to_percent: Is a dictionary like `{Gas("CO2"): 1}`. Note the total percent have to be 1.
 
-    For list of allowed properties and usage, see :class `Gas()`: documentation.
+    For list of allowed properties and usage, see :class:`Gas()` documentation.
     """
 
     component_to_percent = field(factory=dict, validator=_is_valid)
@@ -184,7 +184,7 @@ class GasMixture(AbstractGas):
         Recalculation of the gas mix to account for the water content in the gas.
         This is an approximation, as the absorption of water in dry air serves as the basis for the calculation.
 
-        :param dict component_to_percent: :class: `Gas` as component and percent in fraction. E.g.: `{Gas("CO2"): 1}`
+        :param dict component_to_percent: :class:`Gas` as component and percent in fraction. E.g.: `{Gas("CO2"): 1}`
         :param int | float humidity: In fraction
         :param int | float temperature: The gas temperature in Kelvin
         :param int | float pressure: The gas pressure in Pascal
@@ -236,6 +236,7 @@ def get_water_content(humidity, gas_pressure, vapour_pressure):
     Get the water content in air depends on the given humidity, pressure, and temperature.
 
     `AIR_CONSTANT` and `WATER_CONSTANT` in J/(kg*K)
+
     :param int | float humidity: In fraction number (0...1)
     :param int | float gas_pressure: In Pascal
     :param int | float vapour_pressure: In Pascal

@@ -8,10 +8,10 @@
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parents[2] / "src/customgas"))
-project = 'CustomGas'
-copyright = '2026, Dennis Straub'
-author = 'Dennis Straub'
+sys.path.insert(0, str(Path(__file__).parents[2] / "src/"))
+project = 'Gases-Doc'
+copyright = '2026, Straub, Ruff'
+author = 'Straub, Ruff'
 release = '0.1'
 
 # -- General configuration ---------------------------------------------------
