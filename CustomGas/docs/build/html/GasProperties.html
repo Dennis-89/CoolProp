@@ -82,6 +82,30 @@
   <section id="gasproperties-documentation">
 <h1>GasProperties documentation<a class="headerlink" href="#gasproperties-documentation" title="Link to this heading"></a></h1>
 <p>A thinny wrapper for the <cite>CoolProp</cite> Highlevel interface.</p>
+<p>Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gasproperties</span><span class="w"> </span><span class="kn">import</span> <span class="n">GasMixture</span><span class="p">,</span> <span class="n">Gas</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">gas_temperature</span> <span class="o">=</span> <span class="mi">300</span>
+    <span class="n">gas_pressure</span> <span class="o">=</span> <span class="mf">10e5</span>
+    <span class="n">gas_to_percent</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">Gas</span><span class="p">(</span><span class="s2">&quot;CarbonDioxide&quot;</span><span class="p">):</span> <span class="mf">0.33</span><span class="p">,</span>
+        <span class="n">Gas</span><span class="p">(</span><span class="s2">&quot;Hydrogen&quot;</span><span class="p">):</span> <span class="mf">0.33</span><span class="p">,</span>
+        <span class="n">Gas</span><span class="p">(</span><span class="s2">&quot;Methane&quot;</span><span class="p">):</span> <span class="mf">0.34</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">gas_mix</span> <span class="o">=</span> <span class="n">GasMixture</span><span class="p">(</span><span class="n">gas_to_percent</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start ohne Wasser:</span><span class="se">\n</span><span class="si">{</span><span class="n">gas_mix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">humidity</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+        <span class="n">gas_mix</span> <span class="o">=</span> <span class="n">gas_mix</span><span class="o">.</span><span class="n">get_mix_with_water</span><span class="p">(</span>
+            <span class="n">gas_to_percent</span><span class="p">,</span> <span class="n">humidity</span> <span class="o">*</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="n">gas_temperature</span><span class="p">,</span> <span class="n">gas_pressure</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gasmix bie einer Feuchte von </span><span class="si">{</span><span class="n">humidity</span><span class="si">}</span><span class="s2">%:</span><span class="se">\n</span><span class="si">{</span><span class="n">gas_mix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
 <dl class="py class">
 <dt class="sig sig-object py" id="gasproperties.Gas">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">gasproperties.</span></span><span class="sig-name descname"><span class="pre">Gas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">NOTHING</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gasproperties.Gas" title="Link to this definition"></a></dt>
