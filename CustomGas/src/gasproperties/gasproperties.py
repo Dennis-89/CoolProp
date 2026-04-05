@@ -132,7 +132,8 @@ def _is_valid(gas_mix, *_):
 def _is_full(component_to_percent):
     total = sum(component_to_percent.values())
     if not isclose(1, total, abs_tol=0.0001):
-        raise ValueError(f"Sum of gas is {total} an not 1")
+        error = f"Sum of gas is {total} an not 1"
+        raise ValueError(error)
 
 
 @define
