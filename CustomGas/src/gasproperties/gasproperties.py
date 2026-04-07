@@ -120,6 +120,9 @@ class Gas(AbstractGas):
             if property_type == "T":
                 enthalpy = temperature
                 return PropsSI(property_type, "H", enthalpy, "P", pressure, gas_name)
+            elif property_type == "P":
+                density = pressure
+                return PropsSI(property_type, "T", temperature, "D", density, gas_name)
             return PropsSI(property_type, "T", temperature, "P", pressure, gas_name)
         except ValueError:
             raise
