@@ -174,11 +174,17 @@ class GasMixture(AbstractGas):
         if property_type == "T":
             enthalpy = temperature
             return sum(
-                percent * component._property_si(enthalpy, pressure, property_type)
+                100 * percent * component._property_si(enthalpy, pressure, property_type)
+                for component, percent in component_to_percent.items()
+            )
+        elif property_type == "P":
+            density = pressure
+            return sum(
+                100 * percent * component._property_si(density, pressure, property_type)
                 for component, percent in component_to_percent.items()
             )
         return sum(
-            percent * component._property_si(temperature, pressure, property_type)
+            100 *percent * component._property_si(temperature, pressure, property_type)
             for component, percent in component_to_percent.items()
         )
 
