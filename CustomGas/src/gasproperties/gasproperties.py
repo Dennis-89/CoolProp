@@ -224,7 +224,7 @@ def _switch_percent(bases, percents):
     :return list: Each calculated percent
     """
     total = sum(map(prod, zip(bases, percents)))
-    return [base * percent / total * 100 for base, percent in zip(bases, percents)]
+    return [base * percent / total for base, percent in zip(bases, percents)]
 
 
 def _get_vapour_pressure(temperature):
