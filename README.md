@@ -2,7 +2,7 @@ Todo 08th April 2026:
 
 - Check the enthalp-value to be sure it is the correct one.
 
-# Gases-Doc
+# Install
 
 For HighLevel-API (I called it Gasproperties):
 ```bash
@@ -16,7 +16,7 @@ pip install customgas --extra-index-url https://dennis-89.github.io
 Then just [Download the docs](https://github.com/Dennis-89/CoolProp/blob/main/CustomGas/docs/build/html/index.html) or read below and have fun!
 
 # GasProperties
-See documentation for usage and see below for install.
+See documentation and example below for usage.
 
 ```python
 from gasproperties import GasMixture, Gas
@@ -44,9 +44,8 @@ if __name__ == "__main__":
 ```
 
 
-Example CustomGas Usage
--------------
-See also what is happening when know gas state is set.
+# CustomGas
+See also what is happening when no gas state is set.
 
 ```python
 [dennis@dennis CP]$ python -m venv .venv
