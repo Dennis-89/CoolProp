@@ -123,6 +123,8 @@ class Gas(AbstractGas):
             elif property_type == "P":
                 density = pressure
                 return PropsSI(property_type, "T", temperature, "D", density, gas_name)
+            elif property_type == "D" and gas_name == "H2O":
+                return PropsSI(property_type, "P", pressure, "Q", 1, gas_name)
             return PropsSI(property_type, "T", temperature, "P", pressure, gas_name)
         except ValueError:
             raise
@@ -159,11 +161,11 @@ class GasMixture(AbstractGas):
         #
         # thermal_capacity need to request with mass-percent
         #
-        if property_type == "CP0MASS":
+        if property_type in ["CP0MASS", "D", "H"]:
             components = self.component_to_percent.keys()
             mass_percents = _switch_percent(
                 [
-                    component._property_si(300, 1e5, "molemass")
+                    component._property_si(273.15, 1.013e5, "molemass")
                     for component in components
                 ],
                 self.component_to_percent.values(),
@@ -174,17 +176,18 @@ class GasMixture(AbstractGas):
         if property_type == "T":
             enthalpy = temperature
             return sum(
-                100 * percent * component._property_si(enthalpy, pressure, property_type)
+                percent
+                * component._property_si(enthalpy, pressure, property_type)
                 for component, percent in component_to_percent.items()
             )
         elif property_type == "P":
             density = pressure
             return sum(
-                100 * percent * component._property_si(density, pressure, property_type)
+                percent * component._property_si(density, pressure, property_type)
                 for component, percent in component_to_percent.items()
             )
         return sum(
-            100 *percent * component._property_si(temperature, pressure, property_type)
+            percent * component._property_si(temperature, pressure, property_type)
             for component, percent in component_to_percent.items()
         )
 
@@ -209,10 +212,8 @@ class GasMixture(AbstractGas):
         water_percent = 1 / (water_mass + gas_mass) * water_mass
         gas_percent = 1 - water_percent
         self.component_to_percent = {
-                name: gas_percent * percent
-                for name, percent in components_to_percent
-            } | {Gas("H2O"): water_percent}
-
+            name: gas_percent * percent for name, percent in components_to_percent
+        } | {Gas("H2O"): water_percent}
 
 
 def _switch_percent(bases, percents):
@@ -256,21 +257,25 @@ def get_water_content(humidity, gas_pressure, vapour_pressure):
 
 
 def main():
+    # TODO Dichte in Masse
     gas_temperature = 300
-    gas_pressure = 10e5
+    gas_pressure = 5e5
     gas_to_percent = {
         Gas("CarbonDioxide"): 0.33,
         Gas("Hydrogen"): 0.33,
         Gas("Methane"): 0.34,
     }
     gas_mix = GasMixture(gas_to_percent)
-    print(gas_mix.thermal_capacity(300, 1e5))
-    print(f"Start ohne Wasser:\n{gas_mix}")
-    for humidity in range(0, 110, 10):
-        gas_mix.add_water_to_gas_mix(
-            humidity * 1e-2, gas_temperature, gas_pressure
-        )
-        print(f"Gasmix bie einer Feuchte von {humidity}%:\n{gas_mix}")
+    # for humidity in range(0, 110, 10):
+    gas_mix.add_water_to_gas_mix(1, gas_temperature, gas_pressure)
+    print(gas_mix.component_to_percent)
+    print(
+        f"density: {gas_mix.density(gas_temperature, gas_pressure)}\n"
+        f"thermal_capacity: {gas_mix.thermal_capacity(gas_temperature, gas_pressure)}\n"
+        f"viscosity:{gas_mix.viscosity(gas_temperature, gas_pressure)}\n"
+        f"thermal_conductivity: {gas_mix.thermal_conductivity(gas_temperature, gas_pressure)}\n"
+        f"Molgewicht:{gas_mix.molmass(gas_temperature, gas_pressure)}\n"
+    )
 
 
 if __name__ == "__main__":

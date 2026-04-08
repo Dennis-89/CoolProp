@@ -1,6 +1,12 @@
+Todo 08th April 2026:
+
+- Check the enthalpie value to be sure it is the correct one.
+
 # Gases-Doc
 
-You'll find a *.tar.gz and a *.whl file in [CustomGas/dist](https://github.com/Dennis-89/CoolProp/tree/main/CustomGas/dist). Download one of them and install the libary with `pip`
+```bash
+pip install gasproperties --extra-index-url https://dennis-89.github.io
+```
 .
 
 Then just [Download the docs](https://github.com/Dennis-89/CoolProp/blob/main/CustomGas/docs/build/html/index.html) or read below and have fun!
@@ -41,7 +47,7 @@ See also what is happening when know gas state is set.
 ```python
 [dennis@dennis CP]$ python -m venv .venv
 [dennis@dennis CP]$ . .venv/bin/activate
-(.venv) [dennis@dennis CP]$ pip install customgas-0.1.0-py3-none-any.whl  
+(.venv) [dennis@dennis CP]$pip install customgas --extra-index-url https://dennis-89.github.io
 (.venv) [dennis@dennis CP]$ python
 Python 3.13.11 (main, Dec  5 2025, 00:00:00) [GCC 15.2.1 20251111 (Red Hat 15.2.1-4)] on linux
 Type "help", "copyright", "credits" or "license" for more information.
