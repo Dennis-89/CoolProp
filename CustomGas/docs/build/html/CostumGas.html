@@ -46,8 +46,21 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">CustomGas documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#customgas.Gas"><code class="docutils literal notranslate"><span class="pre">Gas</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.__init__"><code class="docutils literal notranslate"><span class="pre">Gas.__init__()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.input_pair"><code class="docutils literal notranslate"><span class="pre">Gas.input_pair</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.new"><code class="docutils literal notranslate"><span class="pre">Gas.new()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.add_water_to_gas_mix"><code class="docutils literal notranslate"><span class="pre">Gas.add_water_to_gas_mix()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.compressibility"><code class="docutils literal notranslate"><span class="pre">Gas.compressibility()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.density"><code class="docutils literal notranslate"><span class="pre">Gas.density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.input_pair"><code class="docutils literal notranslate"><span class="pre">Gas.input_pair</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.isentropic_coefficient"><code class="docutils literal notranslate"><span class="pre">Gas.isentropic_coefficient()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.mass_enthalpy"><code class="docutils literal notranslate"><span class="pre">Gas.mass_enthalpy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.molar_enthalpy"><code class="docutils literal notranslate"><span class="pre">Gas.molar_enthalpy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.molmass"><code class="docutils literal notranslate"><span class="pre">Gas.molmass()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.pressure"><code class="docutils literal notranslate"><span class="pre">Gas.pressure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.specific_gas_constant"><code class="docutils literal notranslate"><span class="pre">Gas.specific_gas_constant()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.temperature"><code class="docutils literal notranslate"><span class="pre">Gas.temperature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.thermal_capacity"><code class="docutils literal notranslate"><span class="pre">Gas.thermal_capacity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.thermal_capacity_volume"><code class="docutils literal notranslate"><span class="pre">Gas.thermal_capacity_volume()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.thermal_conductivity"><code class="docutils literal notranslate"><span class="pre">Gas.thermal_conductivity()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.update_state"><code class="docutils literal notranslate"><span class="pre">Gas.update_state()</span></code></a></li>
 </ul>
 </li>
@@ -84,6 +97,21 @@
   <section id="customgas-documentation">
 <h1>CustomGas documentation<a class="headerlink" href="#customgas-documentation" title="Link to this heading"></a></h1>
 <p>A thinny wrapper for the <cite>CoolProp</cite> low-level interface.</p>
+<p>Example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">gas_temperature</span> <span class="o">=</span> <span class="mi">300</span>
+    <span class="n">gas_pressure</span> <span class="o">=</span> <span class="mf">10e5</span>
+    <span class="n">gas_mix</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;CarbonDioxide&#39;</span><span class="p">:</span> <span class="mf">0.33</span><span class="p">,</span> <span class="s1">&#39;Hydrogen&#39;</span><span class="p">:</span> <span class="mf">0.33</span><span class="p">,</span> <span class="s1">&#39;Methane&#39;</span><span class="p">:</span> <span class="mf">0.34</span><span class="p">}</span>
+    <span class="n">gas</span> <span class="o">=</span> <span class="n">Gas</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">gas_mix</span><span class="o">=</span><span class="n">gas_mix</span><span class="p">,</span> <span class="n">percent</span><span class="o">=</span><span class="n">Percent</span><span class="o">.</span><span class="n">MASS</span><span class="p">)</span>
+    <span class="n">gas</span><span class="o">.</span><span class="n">update_state</span><span class="p">(</span><span class="n">gas_pressure</span><span class="p">,</span> <span class="n">gas_temperature</span><span class="p">)</span>
+    <span class="n">gas</span><span class="o">.</span><span class="n">add_water_to_gas_mix</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">gas</span><span class="o">.</span><span class="n">density</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
 <dl class="py class">
 <dt class="sig sig-object py" id="customgas.Gas">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">customgas.</span></span><span class="sig-name descname"><span class="pre">Gas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas" title="Link to this definition"></a></dt>
@@ -96,30 +124,167 @@ Use <cite>new()</cite> function to create a <cite>Gas</cite> instance.</p>
 <dd><p>See <a class="reference internal" href="#customgas.Gas.new" title="customgas.Gas.new"><code class="xref py py-func docutils literal notranslate"><span class="pre">Gas.new()</span></code></a> for creating a <cite>Gas</cite> instance.</p>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="customgas.Gas.input_pair">
-<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">input_pair</span></span><a class="headerlink" href="#customgas.Gas.input_pair" title="Link to this definition"></a></dt>
-<dd><p>Get or set the input-pair. You have to use one of the InputPairs-constant
-or import something like that from the <cite>CoolProp</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>value</strong> – InputPairs-like object. See <a class="reference internal" href="#customgas.InputPairs" title="customgas.InputPairs"><code class="xref py py-func docutils literal notranslate"><span class="pre">InputPairs()</span></code></a></p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="customgas.Gas.new">
 <span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">new</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas.new" title="Link to this definition"></a></dt>
 <dd><p>Function to create a new <cite>Gas</cite> instance. The <cite>name</cite> argument specifies the gas name. To create a gas mixture,
-use the <cite>gas_mix</cite> and <cite>percent</cite> keyword arguments. Example: <cite>percent</cite> is a constant of the <cite>Percent</cite>-object
-and indicates whether it is a mass percent or a volume percent value. See <a class="reference internal" href="#customgas.Percent" title="customgas.Percent"><code class="xref py py-func docutils literal notranslate"><span class="pre">Percent()</span></code></a>.</p>
+use the <cite>gas_mix</cite> and <cite>percent</cite> keyword arguments. Example:
+Gas.new(gas_mix={‘CarbonDioxide’: 0.5, ‘Hydrogen’: 0.5}, percent=Percent.MASS).
+<cite>percent</cite> is a constant of the <a class="reference internal" href="#customgas.Percent" title="customgas.Percent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Percent()</span></code></a> and indicates whether it is a mass-percent or
+a volume-percent values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>kwargs</strong> – name: str | gas_mix: dict  percent: int</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><cite>Gas</cite> instance</p>
+<dd class="field-even"><p><a class="reference internal" href="#customgas.Gas" title="customgas.Gas"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gas()</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customgas.Gas.add_water_to_gas_mix">
+<span class="sig-name descname"><span class="pre">add_water_to_gas_mix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">humidity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas.add_water_to_gas_mix" title="Link to this definition"></a></dt>
+<dd><p>Recalculation of the gas mix to account for the water content in the gas.
+This is an approximation, as the absorption of water in dry air serves as the basis for the calculation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>humidity</strong> (<em>int</em><em> | </em><em>float</em>) – In fraction</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#customgas.Gas" title="customgas.Gas"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gas</span></code></a> with <a class="reference internal" href="#customgas.Percent" title="customgas.Percent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Percent</span></code></a>.VOLUME and the calculates parts of water.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customgas.Gas.compressibility">
+<span class="sig-name descname"><span class="pre">compressibility</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas.compressibility" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return float<span class="colon">:</span></dt>
+<dd class="field-odd"><p>compressibility-factor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customgas.Gas.density">
+<span class="sig-name descname"><span class="pre">density</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas.density" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return float<span class="colon">:</span></dt>
+<dd class="field-odd"><p>density in kg/m³</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="customgas.Gas.input_pair">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">input_pair</span></span><a class="headerlink" href="#customgas.Gas.input_pair" title="Link to this definition"></a></dt>
+<dd><p>Get or set the input-pair. You have to use one of the InputPairs-constant
+or import something like that, from <a class="reference external" href="https://coolprop.org/">CoolProp</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<a class="reference internal" href="#customgas.InputPairs" title="customgas.InputPairs"><em>InputPairs</em></a>) – InputPairs-like object. See <a class="reference internal" href="#customgas.InputPairs" title="customgas.InputPairs"><code class="xref py py-class docutils literal notranslate"><span class="pre">InputPairs</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customgas.Gas.isentropic_coefficient">
+<span class="sig-name descname"><span class="pre">isentropic_coefficient</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas.isentropic_coefficient" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return float<span class="colon">:</span></dt>
+<dd class="field-odd"><p>isentropic-expansion-coefficient</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customgas.Gas.mass_enthalpy">
+<span class="sig-name descname"><span class="pre">mass_enthalpy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas.mass_enthalpy" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return float<span class="colon">:</span></dt>
+<dd class="field-odd"><p>mass-enthalpy in J/kg</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customgas.Gas.molar_enthalpy">
+<span class="sig-name descname"><span class="pre">molar_enthalpy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas.molar_enthalpy" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return float<span class="colon">:</span></dt>
+<dd class="field-odd"><p>molar-enthalpy in J/mol</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customgas.Gas.molmass">
+<span class="sig-name descname"><span class="pre">molmass</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas.molmass" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return float<span class="colon">:</span></dt>
+<dd class="field-odd"><p>molar-mass in kg/mol</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customgas.Gas.pressure">
+<span class="sig-name descname"><span class="pre">pressure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas.pressure" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return float<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pressure in Pa</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customgas.Gas.specific_gas_constant">
+<span class="sig-name descname"><span class="pre">specific_gas_constant</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas.specific_gas_constant" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return float<span class="colon">:</span></dt>
+<dd class="field-odd"><p>specific gas-constant in J/(kg * K)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customgas.Gas.temperature">
+<span class="sig-name descname"><span class="pre">temperature</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas.temperature" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return float<span class="colon">:</span></dt>
+<dd class="field-odd"><p>temperature in K</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customgas.Gas.thermal_capacity">
+<span class="sig-name descname"><span class="pre">thermal_capacity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas.thermal_capacity" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return float<span class="colon">:</span></dt>
+<dd class="field-odd"><p>thermal capacity (mass constant, pressure specific) in J/kg/K</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customgas.Gas.thermal_capacity_volume">
+<span class="sig-name descname"><span class="pre">thermal_capacity_volume</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas.thermal_capacity_volume" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return float<span class="colon">:</span></dt>
+<dd class="field-odd"><p>thermal capacity (mass constant, volume specific) in J/kg/K</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="customgas.Gas.thermal_conductivity">
+<span class="sig-name descname"><span class="pre">thermal_conductivity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Gas.thermal_conductivity" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return float<span class="colon">:</span></dt>
+<dd class="field-odd"><p>thermal conductivity in W/m/K</p>
 </dd>
 </dl>
 </dd></dl>
@@ -132,7 +297,7 @@ use the values in the right order. See
 <a class="reference external" href="https://coolprop.org/_static/doxygen/html/namespace_cool_prop.html#a58e7d98861406dedb48e07f551a61efb">CoolProp-Documentation</a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>args</strong> – list [int | float]</p>
+<dd class="field-odd"><p><strong>args</strong> (<em>list</em>) – [int | float]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -142,14 +307,14 @@ use the values in the right order. See
 <dl class="py class">
 <dt class="sig sig-object py" id="customgas.Percent">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">customgas.</span></span><span class="sig-name descname"><span class="pre">Percent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Percent" title="Link to this definition"></a></dt>
-<dd><p>An Enum class to use the percent in mass- or volumepercent.</p>
+<dd><p>An Enum class to use the percent in mass- or volume-percent.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="customgas.InputPairs">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">customgas.</span></span><span class="sig-name descname"><span class="pre">InputPairs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customgas.InputPairs" title="Link to this definition"></a></dt>
 <dd><p>An Enum-class to use one of the input-pairs.</p>
-<p>Pressure and Temperature or Temperature and density</p>
+<p>‘Pressure and Temperature’ or ‘Temperature and density’</p>
 </dd></dl>
 
 </section>

@@ -46,7 +46,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">GasProperties documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#gasproperties.Gas"><code class="docutils literal notranslate"><span class="pre">Gas</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gasproperties.GasMixture"><code class="docutils literal notranslate"><span class="pre">GasMixture</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#gasproperties.GasMixture.get_mix_with_water"><code class="docutils literal notranslate"><span class="pre">GasMixture.get_mix_with_water()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gasproperties.GasMixture.add_water_to_gas_mix"><code class="docutils literal notranslate"><span class="pre">GasMixture.add_water_to_gas_mix()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#gasproperties.get_water_content"><code class="docutils literal notranslate"><span class="pre">get_water_content()</span></code></a></li>
@@ -83,23 +83,21 @@
 <h1>GasProperties documentation<a class="headerlink" href="#gasproperties-documentation" title="Link to this heading"></a></h1>
 <p>A thinny wrapper for the <cite>CoolProp</cite> Highlevel interface.</p>
 <p>Example</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">gasproperties</span><span class="w"> </span><span class="kn">import</span> <span class="n">GasMixture</span><span class="p">,</span> <span class="n">Gas</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="n">gas_temperature</span> <span class="o">=</span> <span class="mi">300</span>
-    <span class="n">gas_pressure</span> <span class="o">=</span> <span class="mf">10e5</span>
-    <span class="n">gas_to_percent</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">Gas</span><span class="p">(</span><span class="s2">&quot;CarbonDioxide&quot;</span><span class="p">):</span> <span class="mf">0.33</span><span class="p">,</span>
-        <span class="n">Gas</span><span class="p">(</span><span class="s2">&quot;Hydrogen&quot;</span><span class="p">):</span> <span class="mf">0.33</span><span class="p">,</span>
-        <span class="n">Gas</span><span class="p">(</span><span class="s2">&quot;Methane&quot;</span><span class="p">):</span> <span class="mf">0.34</span><span class="p">,</span>
-    <span class="p">}</span>
-    <span class="n">gas_mix</span> <span class="o">=</span> <span class="n">GasMixture</span><span class="p">(</span><span class="n">gas_to_percent</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start ohne Wasser:</span><span class="se">\n</span><span class="si">{</span><span class="n">gas_mix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">humidity</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
-        <span class="n">gas_mix</span> <span class="o">=</span> <span class="n">gas_mix</span><span class="o">.</span><span class="n">get_mix_with_water</span><span class="p">(</span>
-            <span class="n">gas_to_percent</span><span class="p">,</span> <span class="n">humidity</span> <span class="o">*</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="n">gas_temperature</span><span class="p">,</span> <span class="n">gas_pressure</span>
-        <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gasmix bie einer Feuchte von </span><span class="si">{</span><span class="n">humidity</span><span class="si">}</span><span class="s2">%:</span><span class="se">\n</span><span class="si">{</span><span class="n">gas_mix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="n">gas_temperature</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">gas_pressure</span> <span class="o">=</span> <span class="mf">10e5</span>
+<span class="n">gas_to_percent</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">Gas</span><span class="p">(</span><span class="s2">&quot;CarbonDioxide&quot;</span><span class="p">):</span> <span class="mf">0.33</span><span class="p">,</span>
+    <span class="n">Gas</span><span class="p">(</span><span class="s2">&quot;Hydrogen&quot;</span><span class="p">):</span> <span class="mf">0.33</span><span class="p">,</span>
+    <span class="n">Gas</span><span class="p">(</span><span class="s2">&quot;Methane&quot;</span><span class="p">):</span> <span class="mf">0.34</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">gas_mix</span> <span class="o">=</span> <span class="n">GasMixture</span><span class="p">(</span><span class="n">gas_to_percent</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Start ohne Wasser:</span><span class="se">\n</span><span class="si">{</span><span class="n">gas_mix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">humidity</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="n">gas_mix</span><span class="o">.</span><span class="n">add_water_to_gas_mix</span><span class="p">(</span>
+        <span class="n">humidity</span> <span class="o">*</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="n">gas_temperature</span><span class="p">,</span> <span class="n">gas_pressure</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Gasmix bie einer Feuchte von </span><span class="si">{</span><span class="n">humidity</span><span class="si">}</span><span class="s2">%:</span><span class="se">\n</span><span class="si">{</span><span class="n">gas_mix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
@@ -195,22 +193,20 @@ through the <a class="reference external" href="https://coolprop.org/general_inf
 </dl>
 <p>For list of allowed properties and usage, see <a class="reference internal" href="#gasproperties.Gas" title="gasproperties.Gas"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gas()</span></code></a> documentation.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="gasproperties.GasMixture.get_mix_with_water">
-<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_mix_with_water</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component_to_percent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">humidity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gasproperties.GasMixture.get_mix_with_water" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="gasproperties.GasMixture.add_water_to_gas_mix">
+<span class="sig-name descname"><span class="pre">add_water_to_gas_mix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">humidity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gasproperties.GasMixture.add_water_to_gas_mix" title="Link to this definition"></a></dt>
 <dd><p>Recalculation of the gas mix to account for the water content in the gas.
 This is an approximation, as the absorption of water in dry air serves as the basis for the calculation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>component_to_percent</strong> (<em>dict</em>) – <a class="reference internal" href="#gasproperties.Gas" title="gasproperties.Gas"><code class="xref py py-class docutils literal notranslate"><span class="pre">Gas</span></code></a> as component and percent in fraction. E.g.: <cite>{Gas(“CO2”): 1}</cite></p></li>
 <li><p><strong>humidity</strong> (<em>int</em><em> | </em><em>float</em>) – In fraction</p></li>
 <li><p><strong>temperature</strong> (<em>int</em><em> | </em><em>float</em>) – The gas temperature in Kelvin</p></li>
 <li><p><strong>pressure</strong> (<em>int</em><em> | </em><em>float</em>) – The gas pressure in Pascal</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return GasMixture<span class="colon">:</span></dt>
-<dd class="field-even"><p>A new <a class="reference internal" href="#gasproperties.GasMixture" title="gasproperties.GasMixture"><code class="xref py py-class docutils literal notranslate"><span class="pre">GasMixture</span></code></a> object</p>
-</dd>
+<dt class="field-even">Return None<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
 </dl>
 </dd></dl>
 

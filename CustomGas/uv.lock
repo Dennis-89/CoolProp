@@ -187,6 +187,7 @@ source = { editable = "." }
 dependencies = [
     { name = "attrs" },
     { name = "coolprop" },
+    { name = "sphinx" },
 ]
 
 [package.dev-dependencies]
@@ -202,6 +203,7 @@ dev = [
 requires-dist = [
     { name = "attrs", specifier = ">=25.4.0" },
     { name = "coolprop", specifier = ">=7.2.0" },
+    { name = "sphinx", specifier = ">=9.1.0" },
 ]
 
 [package.metadata.requires-dev]

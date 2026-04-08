@@ -52,7 +52,7 @@ class Gas(CoolProp.AbstractState):
         use the `gas_mix` and `percent` keyword arguments. Example:
         Gas.new(gas_mix={'CarbonDioxide': 0.5, 'Hydrogen': 0.5}, percent=Percent.MASS).
         `percent` is a constant of the :class:`Percent()` and indicates whether it is a mass-percent or
-         a volume-percent values.
+        a volume-percent values.
 
         :param kwargs: name: str | gas_mix: dict  percent: int
         :return: :class:`Gas()`
@@ -82,7 +82,7 @@ class Gas(CoolProp.AbstractState):
     def input_pair(self):
         """
         Get or set the input-pair. You have to use one of the InputPairs-constant
-        or import something like that, from <https://coolprop.org/>`_`CoolProp`.
+        or import something like that, from `CoolProp <https://coolprop.org/>`_.
 
         :param InputPairs value: InputPairs-like object. See :class:`InputPairs`
         """
@@ -90,7 +90,6 @@ class Gas(CoolProp.AbstractState):
 
     @input_pair.setter
     def input_pair(self, value):
-
         self._input_pair = value.value
 
     def update_state(self, *args):
@@ -186,7 +185,7 @@ class Gas(CoolProp.AbstractState):
         This is an approximation, as the absorption of water in dry air serves as the basis for the calculation.
 
         :param int | float humidity: In fraction
-        :return :class:`Gas` Gas: Return :class:`Gas` with :class:`Percent`.VOLUME and the calculates parts of water.
+        :return: :class:`Gas` with :class:`Percent`.VOLUME and the calculates parts of water.
         """
         water_mass = get_water_content(
             humidity, self.pressure(), _get_vapour_pressure(self.temperature())

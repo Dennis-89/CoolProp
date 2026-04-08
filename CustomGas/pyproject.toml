@@ -1,5 +1,5 @@
 [project]
-name = "gasproperties"
+name = "customgas"
 version = "0.1.0"
 description = "Wrapper for the low-level CoolProp-API."
 readme = "README.md"
