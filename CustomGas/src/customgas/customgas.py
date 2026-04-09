@@ -12,20 +12,38 @@ AIR_CONSTANT = 287.1
 
 class InputPairs(Enum):
     """
-    An Enum-class to use one of the input-pairs.
-
+    An Enum-class to use one of the input-pairs
     'Pressure and Temperature' or 'Temperature and density'
+
+    For more input-pairs, see the `CoolProp - Docs <https://coolprop.org/_static/doxygen/html/namespace_cool_prop.html#a58e7d98861406dedb48e07f551a61efb>`_
+    and use them without this class.
+
+    Example: `InputPairs.PRESSURE_TEMPERATURE` for pressure and temperature as input.
     """
     PRESSURE_TEMPERATURE = CoolProp.PT_INPUTS
+    """
+    Pressure and temperature as input parameter. 
+    """
     TEMPERATURE_DENSITY = CoolProp.DmassT_INPUTS
+    """
+        Temperature and density as input parameter. 
+    """
 
 
 class Percent(Enum):
     """
     An Enum class to use the percent in mass- or volume-percent.
+
+    Example: `Percent.MASS` for mass-percent.
     """
     MASS = 0
+    """
+    For mass-percent
+    """
     VOLUME = 1
+    """
+    For volume-percent
+    """
 
 
 class Gas(CoolProp.AbstractState):

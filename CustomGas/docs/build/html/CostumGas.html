@@ -64,8 +64,16 @@
 <li class="toctree-l3"><a class="reference internal" href="#customgas.Gas.update_state"><code class="docutils literal notranslate"><span class="pre">Gas.update_state()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#customgas.Percent"><code class="docutils literal notranslate"><span class="pre">Percent</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#customgas.InputPairs"><code class="docutils literal notranslate"><span class="pre">InputPairs</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#customgas.Percent"><code class="docutils literal notranslate"><span class="pre">Percent</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Percent.MASS"><code class="docutils literal notranslate"><span class="pre">Percent.MASS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.Percent.VOLUME"><code class="docutils literal notranslate"><span class="pre">Percent.VOLUME</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#customgas.InputPairs"><code class="docutils literal notranslate"><span class="pre">InputPairs</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.InputPairs.PRESSURE_TEMPERATURE"><code class="docutils literal notranslate"><span class="pre">InputPairs.PRESSURE_TEMPERATURE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#customgas.InputPairs.TEMPERATURE_DENSITY"><code class="docutils literal notranslate"><span class="pre">InputPairs.TEMPERATURE_DENSITY</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -308,13 +316,41 @@ use the values in the right order. See
 <dt class="sig sig-object py" id="customgas.Percent">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">customgas.</span></span><span class="sig-name descname"><span class="pre">Percent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customgas.Percent" title="Link to this definition"></a></dt>
 <dd><p>An Enum class to use the percent in mass- or volume-percent.</p>
+<p>Example: <cite>Percent.MASS</cite> for mass-percent.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="customgas.Percent.MASS">
+<span class="sig-name descname"><span class="pre">MASS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="headerlink" href="#customgas.Percent.MASS" title="Link to this definition"></a></dt>
+<dd><p>For mass-percent</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="customgas.Percent.VOLUME">
+<span class="sig-name descname"><span class="pre">VOLUME</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#customgas.Percent.VOLUME" title="Link to this definition"></a></dt>
+<dd><p>For volume-percent</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="customgas.InputPairs">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">customgas.</span></span><span class="sig-name descname"><span class="pre">InputPairs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#customgas.InputPairs" title="Link to this definition"></a></dt>
-<dd><p>An Enum-class to use one of the input-pairs.</p>
-<p>‘Pressure and Temperature’ or ‘Temperature and density’</p>
+<dd><p>An Enum-class to use one of the input-pairs
+‘Pressure and Temperature’ or ‘Temperature and density’</p>
+<p>For more input-pairs, see the <a class="reference external" href="https://coolprop.org/_static/doxygen/html/namespace_cool_prop.html#a58e7d98861406dedb48e07f551a61efb">CoolProp - Docs</a>
+and use them without this class.</p>
+<p>Example: <cite>InputPairs.PRESSURE_TEMPERATURE</cite> for pressure and temperature as input.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="customgas.InputPairs.PRESSURE_TEMPERATURE">
+<span class="sig-name descname"><span class="pre">PRESSURE_TEMPERATURE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9</span></span><a class="headerlink" href="#customgas.InputPairs.PRESSURE_TEMPERATURE" title="Link to this definition"></a></dt>
+<dd><p>Pressure and temperature as input parameter.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="customgas.InputPairs.TEMPERATURE_DENSITY">
+<span class="sig-name descname"><span class="pre">TEMPERATURE_DENSITY</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></span><a class="headerlink" href="#customgas.InputPairs.TEMPERATURE_DENSITY" title="Link to this definition"></a></dt>
+<dd><p>Temperature and density as input parameter.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
